@@ -1,6 +1,7 @@
 PREFIX=/usr
 
 self=lvmsnapshot
+version=0.3
 manpages=$(self).1
 all=manpages
 
@@ -29,6 +30,10 @@ uninstall:
 		rm -rf $(DESTDIR)$(PREFIX)/bin/$(self)
 		rm -rf $(DESTDIR)$(PREFIX)/share/man/man1/$(self).1
 		rm -rf $(DESTDIR)$(PREFIX)/share/doc/$(self)
+
+deb:
+	make install DESTDIR=/tmp/lvmsnapshot
+	fpm -s dir -t deb -n $(self) -a all -v $(version) -C /tmp/lvmsnapshot .
 
 # Potentially harmful, used a non-standard option on purpose.
 # If PREFIX=/usr/local and that's empty...
